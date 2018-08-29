@@ -65,7 +65,27 @@ public class SQLMethods implements Dao {
 
     @Override
     public List<Food> filteredFood(Integer id) {
-        return null;
+        List<Food> foodList = new ArrayList<>();
+
+        String sql = "SELECT * FROM foods WHERE groupId = ?";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                foodList.add(new Food(rs.getInt("id"), rs.getString("name"), rs.getInt("calories"), rs.getInt("groupId")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Query problem in the filteredFood method");
+        }
+
+        return foodList;
     }
 
     @Override
