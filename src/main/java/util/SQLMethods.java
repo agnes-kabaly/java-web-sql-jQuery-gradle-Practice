@@ -40,8 +40,27 @@ public class SQLMethods implements Dao {
     }
 
     @Override
-    public List<Group> listAllGropu() {
-        return null;
+    public List<Group> listAllGroup() {
+        List<Group> groupList = new ArrayList<>();
+
+        String sql = "SELECT * FROM `group`";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                groupList.add(new Group(rs.getInt("id"), rs.getString("name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Query problem in the listAllGroup method");
+        }
+
+        return groupList;
     }
 
     @Override

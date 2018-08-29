@@ -1,7 +1,7 @@
 package servlet;
 
 import com.google.gson.Gson;
-import model.Food;
+import model.Group;
 import util.SQLMethods;
 
 import javax.servlet.ServletException;
@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/allFood")
-public class AllFoodServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/allGroup")
+public class AllGroupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,16 +26,16 @@ public class AllFoodServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
-        List<Food> foodList;
+        List<Group> groupList;
 
         SQLMethods sqlMethods = new SQLMethods();
-        foodList = sqlMethods.listAllFood();
+        groupList = sqlMethods.listAllGroup();
 
         Gson gson = new Gson();
-        String jsonStringFood = gson.toJson(foodList);
+        String jsonGroup = gson.toJson(groupList);
 
         PrintWriter out = resp.getWriter();
-        out.write(jsonStringFood);
+        out.write(jsonGroup);
 
     }
 
