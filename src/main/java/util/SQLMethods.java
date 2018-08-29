@@ -91,5 +91,20 @@ public class SQLMethods implements Dao {
     @Override
     public void addFood(Food food) {
 
+        String sql = "INSERT INTO `foods` (`name`, `calories`, `groupId`) VALUES (?, ?, ?)";
+
+        PreparedStatement ps = null;
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, food.getName());
+            ps.setInt(2, food.getCalories());
+            ps.setInt(3, food.getGroupId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Update problem in the addFood method");
+        }
+
     }
 }
