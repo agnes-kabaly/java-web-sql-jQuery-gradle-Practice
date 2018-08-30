@@ -1,8 +1,6 @@
-/**
- * Created by kabaly on 8/29/18.
- */
 $(document).ready(function () {
     displayAllFoods();
+    groupButtons();
 });
 
 function displayAllFoods() {
@@ -11,6 +9,28 @@ function displayAllFoods() {
         appendDisplayFoods(response);
     });
 };
+
+function groupButtons() {
+    $.get("/allGroup", function (response) {
+        response.forEach(function (element) {
+            var gButt = document.createElement("button");
+            gButt.textContent = element.name;
+
+            var groupOptions = document.createElement("options");
+            groupOptions.textContent = element.id;
+            $("#groupId").append(groupOptions);
+
+            gButt.onclick = function () {
+                var actualId = element.id;
+                $.get("/filtered", {actId:actualId}, function (response) {
+                    $("#displayFoods").empty();
+                    appendDisplayFoods(response);
+                });
+            };
+            $("#groupButtons").append(gButt);
+        });
+    });
+}
 
 function appendDisplayFoods(response) {
     response.forEach(function (element) {
