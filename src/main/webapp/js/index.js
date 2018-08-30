@@ -1,6 +1,16 @@
 $(document).ready(function () {
     displayAllFoods();
     groupButtons();
+
+    $("#addFButt").click(function () {
+        addFood();
+        displayAllFoods();
+    });
+
+    $("#allFoods").click(function() {
+        displayAllFoods();
+    });
+
 });
 
 function displayAllFoods() {
@@ -8,7 +18,7 @@ function displayAllFoods() {
         $("#displayFoods").empty();
         appendDisplayFoods(response);
     });
-};
+}
 
 function groupButtons() {
     $.get("/allGroup", function (response) {
@@ -30,6 +40,10 @@ function groupButtons() {
             $("#groupButtons").append(gButt);
         });
     });
+}
+
+function addFood() {
+
 }
 
 function appendDisplayFoods(response) {
