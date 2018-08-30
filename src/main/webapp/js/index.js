@@ -10,14 +10,15 @@ $(document).ready(function () {
     $("#allFoods").click(function() {
         displayAllFoods();
     });
-
 });
 
 function displayAllFoods() {
     $.get("/allFood", function (response) {
         $("#displayFoods").empty();
+        $("#caloriesAvr").empty();
         appendDisplayFoods(response);
     });
+    avrCalories();
 }
 
 function groupButtons() {
@@ -50,6 +51,7 @@ function addFood() {
 
     $.post("/addFood", {json:json});
 
+    $("#caloriesAvr").empty();
 }
 
 function appendDisplayFoods(response) {
@@ -58,4 +60,20 @@ function appendDisplayFoods(response) {
         foodH.textContent = element.id + ", " + element.name + ", " + element.calories + ", " + element.groupId;
         $("#displayFoods").append(foodH);
     });
+}
+
+function avrCalories() {
+    $.get("/allFood", function (response) {
+        var counter = 0;
+        var sum = 0;
+        response.forEach(function (element) {
+            counter += 1;
+            sum += element.calories;
+        });
+        var result = sum / counter;
+        var resH = document.createElement("h3");
+        resH.textContent = result;
+        $("#caloriesAvr").append(resH);
+    });
+
 }
