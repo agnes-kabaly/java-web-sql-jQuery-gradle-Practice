@@ -26,7 +26,7 @@ function groupButtons() {
             var gButt = document.createElement("button");
             gButt.textContent = element.name;
 
-            var groupOptions = document.createElement("options");
+            var groupOptions = document.createElement("option");
             groupOptions.textContent = element.id;
             $("#groupId").append(groupOptions);
 
@@ -43,6 +43,12 @@ function groupButtons() {
 }
 
 function addFood() {
+    var fName = $("#name").val();
+    var fCalories = $("#calories").val();
+    var fGroupId = $("#groupId").val();
+    var json = JSON.stringify({name:fName, calories:fCalories, groupId:fGroupId});
+
+    $.post("/addFood", {json:json});
 
 }
 
