@@ -3,8 +3,7 @@ $(document).ready(function () {
     groupButtons();
 
     $("#addFButt").click(function () {
-        addFood();
-        displayAllFoods();
+        addFood(displayAllFoods);
     });
 
     $("#allFoods").click(function() {
@@ -18,7 +17,6 @@ function displayAllFoods() {
         $("#caloriesAvr").empty();
         appendDisplayFoods(response);
     });
-    avrCalories();
 }
 
 function groupButtons() {
@@ -43,15 +41,16 @@ function groupButtons() {
     });
 }
 
-function addFood() {
+function addFood(callback) {
     var fName = $("#name").val();
     var fCalories = $("#calories").val();
     var fGroupId = $("#groupId").val();
     var json = JSON.stringify({name:fName, calories:fCalories, groupId:fGroupId});
 
-    $.post("/addFood", {json:json});
-
     $("#caloriesAvr").empty();
+    $.post("/addFood", {json:json}, function () {
+        callback();
+    });
 }
 
 function appendDisplayFoods(response) {
@@ -60,20 +59,19 @@ function appendDisplayFoods(response) {
         foodH.textContent = element.id + ", " + element.name + ", " + element.calories + ", " + element.groupId;
         $("#displayFoods").append(foodH);
     });
+    avrCalories(response);
 }
 
-function avrCalories() {
-    $.get("/allFood", function (response) {
-        var counter = 0;
-        var sum = 0;
-        response.forEach(function (element) {
-            counter += 1;
-            sum += element.calories;
-        });
-        var result = sum / counter;
-        var resH = document.createElement("h3");
-        resH.textContent = result;
-        $("#caloriesAvr").append(resH);
+function avrCalories(response) {
+    var counter = 0;
+    var sum = 0;
+    response.forEach(function (element) {
+        counter += 1;
+        sum += element.calories;
     });
+    var result = sum / counter;
+    var resH = document.createElement("h3");
+    resH.textContent = result;
+    $("#caloriesAvr").append(resH);
 
 }

@@ -29,6 +29,7 @@ public class AddFoodServlet extends HttpServlet {
         sqlMethods.addFood(food);
 
         PrintWriter out = resp.getWriter();
+        out.write(json);
 
     }
 
